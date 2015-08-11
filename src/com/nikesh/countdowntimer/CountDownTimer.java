@@ -8,28 +8,46 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import java.applet.*;
 
-
 public class CountDownTimer extends JFrame implements ActionListener, Runnable {
 
+    // Stores the current minute and second.
     private int currentMinute, currentSecond;
+
+    // Panels to group the UI components.
     private JPanel bottomPanel, topPanel, main = new JPanel(new BorderLayout());
+
+    /**
+     * UI COMPONENTS *
+     */
     private JTextField minutes, seconds;
     private JButton button;
-    private boolean error = false;
-    private Thread t;
-    private boolean isRunning = false;
-    private AudioClip audio;
     private JPopupMenu popupmenu = new JPopupMenu();
     private JMenu sounds;
     private JMenuItem sound1, sound2, sound3, exit, stopSound;
 
+    // Flag for an error
+    private boolean error = false;
+
+    // Thread to run the timer.
+    private Thread t;
+
+    // Variable to store the running state of thread.
+    private boolean isRunning = false;
+
+    // Stores the selected audio for the timer's timeout sound.
+    private AudioClip audio;
+
+    /**
+     * No-args constructor
+     */
     public CountDownTimer() {
         init();
-       
     }
 
+    /**
+     * Initializes the UI components, adds listeners, places the interface
+     */
     private void init() {
-
         //JDialog.setDefaultLookAndFeelDecorated(false);
         setTitle("Timer");
         try {
@@ -143,6 +161,10 @@ public class CountDownTimer extends JFrame implements ActionListener, Runnable {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE | JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Overriding the method that gets called when even event occurs.
+     * @param e Event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object o = e.getSource();
@@ -170,6 +192,9 @@ public class CountDownTimer extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    /**
+     * Checks whether the number entered by the user in the field is valid or not.
+     */
     private void checkNumbers() {
         try {
             int minute = Integer.parseInt(this.minutes.getText());
@@ -191,6 +216,9 @@ public class CountDownTimer extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    /**
+     * Thread that starts the countdown
+     */
     @Override
     public void run() {
         while (isRunning) {
@@ -235,6 +263,9 @@ public class CountDownTimer extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    /**
+     * Method that helps to stop the thread.
+     */
     private void stopThread() {
         this.isRunning = false;
         button.setText("Start");
